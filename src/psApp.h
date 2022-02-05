@@ -31,7 +31,7 @@ class psApp : public wxApp
 {
 public:
 
-    virtual bool OnInit() override;
+    bool OnInit() override;
 };
 
 #endif // SRC_PSAPP_H_GUARD

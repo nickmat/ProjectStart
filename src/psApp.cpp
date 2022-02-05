@@ -33,7 +33,6 @@
 #include "psApp.h"
 #include "psFrame.h"
 
-// Create a new application object
 wxIMPLEMENT_APP( psApp );
 
 bool psApp::OnInit()
@@ -42,7 +41,7 @@ bool psApp::OnInit()
         return false;
     }
 
-    psFrame* frame = new psFrame( "Project Start" );
+    psFrame* frame = new psFrame();
 
     frame->Show( true );
 

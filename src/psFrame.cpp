@@ -33,45 +33,29 @@
 #include "psApp.h"
 #include "psFrame.h"
 
-// ----------------------------------------------------------------------------
-// Event tables
-// ----------------------------------------------------------------------------
 
-wxBEGIN_EVENT_TABLE( psFrame, wxFrame )
-EVT_MENU( wxID_EXIT, psFrame::OnQuit )
-EVT_MENU( wxID_ABOUT, psFrame::OnAbout )
-wxEND_EVENT_TABLE()
-
-// ----------------------------------------------------------------------------
-// Main frame
-// ----------------------------------------------------------------------------
-
-psFrame::psFrame( const wxString& title )
-    : wxFrame( NULL, wxID_ANY, title )
+psFrame::psFrame()
+    : wxFrame( nullptr, wxID_ANY, "Project Start" )
 {
-    // Set the frame icon
     SetIcon( wxICON( frame ) );
 
-    // Create a menu bar
-    wxMenu* fileMenu = new wxMenu;
-    fileMenu->Append( wxID_EXIT, "E&xit\tAlt-X", "Quit this program" );
+    wxMenu* menuFile = new wxMenu;
+    menuFile->Append( wxID_EXIT );
 
-    wxMenu* helpMenu = new wxMenu;
-    helpMenu->Append( wxID_ABOUT, "&About\tF1", "Show about dialog" );
+    wxMenu* menuHelp = new wxMenu;
+    menuHelp->Append( wxID_ABOUT );
 
     wxMenuBar* menuBar = new wxMenuBar();
-    menuBar->Append( fileMenu, "&File" );
-    menuBar->Append( helpMenu, "&Help" );
+    menuBar->Append( menuFile, "&File" );
+    menuBar->Append( menuHelp, "&Help" );
 
     SetMenuBar( menuBar );
 
-    // Create a status bar
-    CreateStatusBar( 2 );
-    SetStatusText( "Welcome to Project Start" );
+    Bind( wxEVT_MENU, &psFrame::OnAbout, this, wxID_ABOUT );
+    Bind( wxEVT_MENU, &psFrame::OnExit, this, wxID_EXIT );
 }
 
-
-void psFrame::OnQuit( wxCommandEvent& event )
+void psFrame::OnExit( wxCommandEvent& event )
 {
     Close( true );
 }

@@ -30,16 +30,11 @@
 class psFrame : public wxFrame
 {
 public:
-    // ctor(s)
-    psFrame( const wxString& title );
-
-    // event handlers (these functions should _not_ be virtual)
-    void OnQuit( wxCommandEvent& event );
-    void OnAbout( wxCommandEvent& event );
+    psFrame();
 
 private:
-    // any class wishing to process wxWidgets events must use this macro
-    wxDECLARE_EVENT_TABLE();
+    void OnExit( wxCommandEvent& event );
+    void OnAbout( wxCommandEvent& event );
 };
 
 
