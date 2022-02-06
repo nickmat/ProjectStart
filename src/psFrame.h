@@ -35,6 +35,12 @@ public:
 private:
     void OnExit( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
+
+    void CreatePanels( size_t num );
+
+    static constexpr size_t m_maxpanels = 6;
+    wxPanel* m_panels[m_maxpanels];
+
 };
 
 
