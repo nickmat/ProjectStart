@@ -34,14 +34,16 @@
 
 #include "psApp.h"
 
-#include <algorithm>
 
 psFrame::psFrame()
     : wxFrame( nullptr, wxID_ANY, "Project Start" )
 {
     for( size_t i = 0; i < m_maxpanels; i++ ) {
-        m_panels[i] = nullptr;
+        m_entries[i] = nullptr;
     }
+
+    m_bkg_color = wxColour( 0xfcfcfc );
+    m_sel_color = wxColour( 0xffe8cc );
 
     SetIcon( wxICON( frame ) );
 
@@ -60,7 +62,57 @@ psFrame::psFrame()
     Bind( wxEVT_MENU, &psFrame::OnAbout, this, wxID_ABOUT );
     Bind( wxEVT_MENU, &psFrame::OnExit, this, wxID_EXIT );
 
-    CreatePanels( 4 );
+    CreatePanels( 6 );
+}
+
+void psFrame::CreatePanels( size_t num )
+{
+    const char* teststr[m_maxpanels] = {
+        "First Menu", "Second Menu", "Third Menu",
+        "Fourth Menu", "Fifth Menu", "Sixth Menu"
+    };
+    size_t size = std::min( num, m_maxpanels );
+
+    SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+    wxBoxSizer* bsizer1 = new wxBoxSizer( wxVERTICAL );
+
+    for( size_t i = 0; i < size; i++ ) {
+        wxPanel* panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+        SetBackgroundColour( m_bkg_color );
+        wxBoxSizer* bsizer = new wxBoxSizer( wxHORIZONTAL );
+
+        m_entries[i] = new wxStaticText( panel, wxID_ANY, teststr[i],
+            wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL );
+        m_entries[i]->Wrap( -1 );
+        m_entries[i]->SetFont( wxFont( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "" ) );
+
+        bsizer->Add( m_entries[i], 1, wxALIGN_CENTER_VERTICAL | wxALIGN_CENTER_HORIZONTAL | wxALL, 0 );
+
+        panel->SetSizer( bsizer );
+        panel->Layout();
+        bsizer->Fit( panel );
+        bsizer1->Add( panel, 1, wxEXPAND, 0 );
+
+        m_entries[i]->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( psFrame::OnButtonDown ), nullptr, this );
+        m_entries[i]->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( psFrame::OnEnter ), nullptr, this );
+        m_entries[i]->Connect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( psFrame::OnLeave ), nullptr, this );
+    }
+
+    SetSizer( bsizer1 );
+    Layout();
+
+    Centre( wxBOTH );
+}
+
+size_t psFrame::GetEntryIndex( const wxObject* entry ) const
+{
+    for( size_t i = 0; i < m_maxpanels; i++ ) {
+        if( m_entries[i] == entry ) {
+            return i;
+        }
+    }
+    return m_maxpanels;
 }
 
 void psFrame::OnExit( wxCommandEvent& event )
@@ -85,39 +137,27 @@ void psFrame::OnAbout( wxCommandEvent& event )
         this );
 }
 
-void psFrame::CreatePanels( size_t num )
+void psFrame::OnButtonDown( wxMouseEvent& event )
 {
-    const char* teststr[m_maxpanels] = {
-        "First Menu", "Second Menu", "Third Menu",
-        "Fourth Menu", "Fifth Menu", "Sixth Menu"
-    };
-    size_t size = std::min( num, m_maxpanels );
+    size_t index = GetEntryIndex( event.GetEventObject() );
+}
 
-    SetSizeHints( wxDefaultSize, wxDefaultSize );
+void psFrame::OnEnter( wxMouseEvent& event )
+{
+    size_t i = GetEntryIndex( event.GetEventObject() );
+    m_entries[i]->SetBackgroundColour( m_sel_color );
+    m_entries[i]->Refresh();
 
-    wxBoxSizer* bsizer1 = new wxBoxSizer( wxVERTICAL );
+    SetCursor( wxCURSOR_HAND );
+}
 
-    for( size_t i = 0; i < size; i++ ) {
-        m_panels[i] = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
-        wxBoxSizer* bsizer = new wxBoxSizer( wxHORIZONTAL );
+void psFrame::OnLeave( wxMouseEvent& event )
+{
+    size_t i = GetEntryIndex( event.GetEventObject() );
+    m_entries[i]->SetBackgroundColour( m_bkg_color );
+    m_entries[i]->Refresh();
 
-        wxStaticText* stext = new wxStaticText( m_panels[i], wxID_ANY, teststr[i],
-            wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL );
-        stext->Wrap( -1 );
-        stext->SetFont( wxFont( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "" ) );
-
-        bsizer->Add( stext, 1, wxALIGN_CENTER_VERTICAL | wxALIGN_CENTER_HORIZONTAL | wxALL, 0 );
-
-        m_panels[i]->SetSizer( bsizer );
-        m_panels[i]->Layout();
-        bsizer->Fit( m_panels[i] );
-        bsizer1->Add( m_panels[i], 1, wxEXPAND, 0 );
-    }
-
-    SetSizer( bsizer1 );
-    Layout();
-
-    Centre( wxBOTH );
+    SetCursor( wxCURSOR_ARROW );
 }
 
 // End of src/psFrame.cpp source.

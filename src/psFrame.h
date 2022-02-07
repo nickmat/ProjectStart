@@ -33,14 +33,20 @@ public:
     psFrame();
 
 private:
+    void CreatePanels( size_t num );
+    size_t GetEntryIndex( const wxObject* entry ) const;
+
     void OnExit( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
 
-    void CreatePanels( size_t num );
+    void OnButtonDown( wxMouseEvent& event );
+    void OnEnter( wxMouseEvent& event );
+    void OnLeave( wxMouseEvent& event );
 
     static constexpr size_t m_maxpanels = 6;
-    wxPanel* m_panels[m_maxpanels];
-
+    wxStaticText* m_entries[m_maxpanels];
+    wxColour m_bkg_color;
+    wxColour m_sel_color;
 };
 
 
