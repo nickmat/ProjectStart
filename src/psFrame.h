@@ -39,15 +39,22 @@ private:
     void OnExit( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
 
-    void OnButtonDown( wxMouseEvent& event );
     void OnEnter( wxMouseEvent& event );
     void OnLeave( wxMouseEvent& event );
+    void OnButtonDown( wxMouseEvent& event );
+    void OnOptionSelected( wxCommandEvent& event );
 
     static constexpr size_t m_maxpanels = 6;
     wxStaticText* m_entries[m_maxpanels];
+    size_t m_current_panel;
     wxColour m_bkg_color;
     wxColour m_sel_color;
 };
 
+constexpr size_t psMaxOptions = 6;
+enum {
+    psID_OptionFirst = 1,
+    psID_OptionLast = psID_OptionFirst + psMaxOptions
+};
 
 #endif // SRC_PSFRAME_H_GUARD
