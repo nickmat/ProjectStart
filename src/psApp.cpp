@@ -47,11 +47,13 @@ bool psApp::OnInit()
 
     frame->Show( true );
 
+    wxPoint pointer = wxGetMousePosition();
     wxSize size = frame->GetSize();
-    wxDisplay display( wxDisplay::GetFromWindow( frame ) );
+    wxDisplay display( wxDisplay::GetFromPoint( pointer ) );
     wxRect screen = display.GetClientArea();
-    int x = screen.x + ( ( screen.width - size.x ) / 2 );
-    int y = screen.height - size.y;
+
+    int x = pointer.x - size.GetWidth() / 2;
+    int y = screen.GetY() + screen.GetHeight() - size.GetHeight();
     frame->Move( x, y );
 
     return true;
