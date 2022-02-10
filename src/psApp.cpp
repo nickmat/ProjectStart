@@ -33,6 +33,8 @@
 #include "psApp.h"
 #include "psFrame.h"
 
+#include <wx/display.h>
+
 wxIMPLEMENT_APP( psApp );
 
 bool psApp::OnInit()
@@ -44,6 +46,13 @@ bool psApp::OnInit()
     psFrame* frame = new psFrame();
 
     frame->Show( true );
+
+    wxSize size = frame->GetSize();
+    wxDisplay display( wxDisplay::GetFromWindow( frame ) );
+    wxRect screen = display.GetClientArea();
+    int x = screen.x + ( ( screen.width - size.x ) / 2 );
+    int y = screen.height - size.y;
+    frame->Move( x, y );
 
     return true;
 }
