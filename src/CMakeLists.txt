@@ -24,4 +24,4 @@ endif()
 add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES})
 
 # Link required libraries to the executable
-target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} wx::core wx::base)
