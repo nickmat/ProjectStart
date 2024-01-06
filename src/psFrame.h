@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     https://github.com/nickmat/ProjectStart
  * Created:     2nd January 2022
- * Copyright:   Copyright (c) 2022, Nick Matthews.
+ * Copyright:   Copyright (c) 2022..2024, Nick Matthews.
  * Licence:     Boost Software License - Version 1.0
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -30,7 +30,7 @@
 class psFrame : public wxFrame
 {
 public:
-    psFrame();
+    psFrame( const wxString& shortcut_dir );
 
 private:
     void CreatePanels( size_t num );

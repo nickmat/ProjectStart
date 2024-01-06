@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     https://github.com/nickmat/ProjectStart
  * Created:     2nd January 2022
- * Copyright:   Copyright (c) 2022, Nick Matthews.
+ * Copyright:   Copyright (c) 2022..2024, Nick Matthews.
  * Licence:     Boost Software License - Version 1.0
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -43,7 +43,16 @@ bool psApp::OnInit()
         return false;
     }
 
-    psFrame* frame = new psFrame();
+    wxString shortcut_dir;
+    bool success = wxGetEnv( "PROJECTSTART", &shortcut_dir );
+    if( argc > 1 ) {
+        shortcut_dir = argv[1];
+    }
+    if( shortcut_dir.empty() ) {
+        wxMessageBox( "No shortcut directory given.", "ProjectStart: Startup Error" );
+        return false;
+    }
+    psFrame* frame = new psFrame( shortcut_dir );
 
     frame->Show( true );
 

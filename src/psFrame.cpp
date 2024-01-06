@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     https://github.com/nickmat/ProjectStart
  * Created:     2nd January 2022
- * Copyright:   Copyright (c) 2022, Nick Matthews.
+ * Copyright:   Copyright (c) 2022..2024, Nick Matthews.
  * Licence:     Boost Software License - Version 1.0
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -35,7 +35,7 @@
 #include "psApp.h"
 
 
-psFrame::psFrame()
+psFrame::psFrame( const wxString& shortcut_dir )
     : m_current_panel( 0 ), m_bkg_color( 0xfcfcfc ), m_sel_color( 0xffe8cc ),
     wxFrame( nullptr, wxID_ANY, "Project Start" )
 {
