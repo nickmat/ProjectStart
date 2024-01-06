@@ -34,9 +34,14 @@
 
 #include "psApp.h"
 
+#include <filesystem>
 
-psFrame::psFrame( const wxString& shortcut_dir )
-    : m_current_panel( 0 ), m_bkg_color( 0xfcfcfc ), m_sel_color( 0xffe8cc ),
+using std::string;
+namespace fs = std::filesystem;
+
+
+psFrame::psFrame( const string& shortcut_dir )
+    : m_shortcut_dir( shortcut_dir ), m_current_panel( 0 ), m_bkg_color( 0xfcfcfc ), m_sel_color( 0xffe8cc ),
     wxFrame( nullptr, wxID_ANY, "Project Start" )
 {
     for( size_t i = 0; i < m_maxpanels; i++ ) {
@@ -62,15 +67,34 @@ psFrame::psFrame( const wxString& shortcut_dir )
     Bind( wxEVT_COMMAND_MENU_SELECTED, &psFrame::OnOptionSelected, this,
             psID_OptionFirst, psID_OptionLast );
 
-    CreatePanels( 6 );
+    size_t opts = ReadOptions();
+    CreatePanels( opts );
+}
+
+size_t psFrame::ReadOptions()
+{
+    fs::path dir = m_shortcut_dir;
+    m_options.clear();
+    size_t index = 0;
+    Option opt;
+    opt.m_filetype = FileType::dir;
+    for( const auto& entry : fs::directory_iterator( dir ) ) {
+        if( !entry.is_directory() ) {
+            continue;
+        }
+        opt.m_option = entry.path().filename().u8string();
+        if( opt.m_option == "Batch" ) {
+            continue;
+        }
+        opt.m_filename = entry.path().u8string();
+        m_options.push_back( opt );
+        index++;
+    }
+    return index;
 }
 
 void psFrame::CreatePanels( size_t num )
 {
-    const char* teststr[m_maxpanels] = {
-        "First Menu", "Second Menu", "Third Menu",
-        "Fourth Menu", "Fifth Menu", "Sixth Menu"
-    };
     size_t size = std::min( num, m_maxpanels );
 
     SetSizeHints( wxDefaultSize, wxDefaultSize );
@@ -82,7 +106,7 @@ void psFrame::CreatePanels( size_t num )
         SetBackgroundColour( m_bkg_color );
         wxBoxSizer* bsizer = new wxBoxSizer( wxHORIZONTAL );
 
-        m_entries[i] = new wxStaticText( panel, wxID_ANY, teststr[i],
+        m_entries[i] = new wxStaticText( panel, wxID_ANY, m_options[i].m_option,
             wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL );
         m_entries[i]->Wrap( -1 );
         m_entries[i]->SetFont( wxFont( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "" ) );

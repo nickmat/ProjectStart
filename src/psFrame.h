@@ -27,12 +27,25 @@
 #ifndef SRC_PSFRAME_H_GUARD
 #define SRC_PSFRAME_H_GUARD
 
+enum class FileType { file, dir };
+
+struct Option {
+    Option() : m_filetype( FileType::file ) {}
+
+    FileType m_filetype;
+    std::string m_option;
+    std::string m_filename;
+};
+
+using OptionVec = std::vector<Option>;
+
 class psFrame : public wxFrame
 {
 public:
-    psFrame( const wxString& shortcut_dir );
+    psFrame( const std::string& shortcut_dir );
 
 private:
+    size_t ReadOptions();
     void CreatePanels( size_t num );
     size_t GetEntryIndex( const wxObject* entry ) const;
 
@@ -45,6 +58,8 @@ private:
     void OnOptionSelected( wxCommandEvent& event );
 
     static constexpr size_t m_maxpanels = 6;
+    std::string m_shortcut_dir;
+    OptionVec m_options;
     wxStaticText* m_entries[m_maxpanels];
     size_t m_current_panel;
     wxColour m_bkg_color;

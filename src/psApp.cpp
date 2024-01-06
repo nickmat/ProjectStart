@@ -35,6 +35,8 @@
 
 #include <wx/display.h>
 
+using std::string;
+
 wxIMPLEMENT_APP( psApp );
 
 bool psApp::OnInit()
@@ -52,7 +54,7 @@ bool psApp::OnInit()
         wxMessageBox( "No shortcut directory given.", "ProjectStart: Startup Error" );
         return false;
     }
-    psFrame* frame = new psFrame( shortcut_dir );
+    psFrame* frame = new psFrame( shortcut_dir.ToStdString() );
 
     frame->Show( true );
 
