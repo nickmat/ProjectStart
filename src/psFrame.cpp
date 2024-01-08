@@ -34,8 +34,6 @@
 
 #include "psApp.h"
 
-#include <filesystem>
-
 using std::string;
 namespace fs = std::filesystem;
 
@@ -65,7 +63,7 @@ psFrame::psFrame( const string& shortcut_dir )
     Bind( wxEVT_MENU, &psFrame::OnAbout, this, wxID_ABOUT );
     Bind( wxEVT_MENU, &psFrame::OnExit, this, wxID_EXIT );
     Bind( wxEVT_COMMAND_MENU_SELECTED, &psFrame::OnOptionSelected, this,
-            psID_OptionFirst, psID_OptionLast );
+        psID_EntryFirst, psID_EntryLast );
 
     size_t opts = ReadOptions();
     CreatePanels( opts );
@@ -181,27 +179,53 @@ void psFrame::OnLeave( wxMouseEvent& event )
 
 void psFrame::OnButtonDown( wxMouseEvent& event )
 {
-    const char* teststr[m_maxpanels] = {
-        "First Option", "Second Option", "Third Option",
-        "Fourth Option", "Fifth Option", "Sixth Option"
-    };
     m_current_panel = GetEntryIndex( event.GetEventObject() );
-    size_t cnt = m_current_panel + 1;
+    fs::path dir = m_options[m_current_panel].m_filename;
+    std::vector<wxMenu*> menus;
+    create_submenu( dir, menus, psID_EntryFirst );
 
+    PopupMenu( menus[0] );
+    delete menus[0];
+    m_items.clear();
+}
+
+int psFrame::create_submenu( fs::path path, std::vector<wxMenu*>& menus, int index )
+{
     wxMenu* menu = new wxMenu;
-    for( size_t i = 0; i < cnt; i++ ) {
-        menu->Append( psID_OptionFirst + i, teststr[i] );
+    menus.push_back( menu );
+    Option item;
+    for( const auto& entry : fs::directory_iterator( path ) ) {
+        if( entry.is_directory() ) {
+            size_t submenu_index = menus.size();
+            index = create_submenu( entry.path(), menus, index );
+            wxMenu* submenu = menus[submenu_index];
+            menu->AppendSubMenu( submenu, wxString( entry.path().filename() ) );
+            continue;
+        }
+        item.m_option = entry.path().stem().u8string();
+        item.m_filename = entry.path().u8string();
+        m_items.push_back( item );
+        menu->Append( index, item.m_option );
+        index++;
+        if( index == psID_EntryLast ) {
+            wxMessageBox( "Exceed number of expected entries.", "ProjectStart: Error" );
+        }
     }
-    PopupMenu( menu );
-    delete menu;
+    return index;
 }
 
 void psFrame::OnOptionSelected( wxCommandEvent& event )
 {
-    size_t index = event.GetId() - psID_OptionFirst;
-    wxString mess;
-    mess << "Hi, this is menu " << m_current_panel+1 << " and option " << index+1;
-    wxMessageBox( mess );
+    size_t index = event.GetId() - psID_EntryFirst;
+    wxString fn = m_items[index].m_filename;
+#if 0
+    wxString mess; // Leave this here for debugging
+    mess << "[" << m_items[index].m_option << "] at [" << fn << "] (" << index << ")";
+    wxMessageBox( mess, "ProjectStart" );
+#else   
+    wxLaunchDefaultApplication( fn );
+    Close( true );
+#endif
 }
 
 // End of src/psFrame.cpp source.

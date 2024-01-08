@@ -27,6 +27,8 @@
 #ifndef SRC_PSFRAME_H_GUARD
 #define SRC_PSFRAME_H_GUARD
 
+#include <filesystem>
+
 enum class FileType { file, dir };
 
 struct Option {
@@ -55,6 +57,7 @@ private:
     void OnEnter( wxMouseEvent& event );
     void OnLeave( wxMouseEvent& event );
     void OnButtonDown( wxMouseEvent& event );
+    int create_submenu( std::filesystem::path path, std::vector<wxMenu*>& menus, int index );
     void OnOptionSelected( wxCommandEvent& event );
 
     static constexpr size_t m_maxpanels = 6;
@@ -62,14 +65,14 @@ private:
     OptionVec m_options;
     wxStaticText* m_entries[m_maxpanels];
     size_t m_current_panel;
+    OptionVec m_items;
     wxColour m_bkg_color;
     wxColour m_sel_color;
 };
 
-constexpr size_t psMaxOptions = 6;
-enum {
-    psID_OptionFirst = 1,
-    psID_OptionLast = psID_OptionFirst + psMaxOptions
-};
+
+constexpr int psMaxEntry = 100;
+constexpr int psID_EntryFirst = 1;
+constexpr int psID_EntryLast = psID_EntryFirst + psMaxEntry;
 
 #endif // SRC_PSFRAME_H_GUARD
