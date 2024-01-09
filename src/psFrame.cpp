@@ -38,9 +38,11 @@ using std::string;
 namespace fs = std::filesystem;
 
 
+constexpr long c_ps_style = wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxTAB_TRAVERSAL;
+
 psFrame::psFrame( const string& shortcut_dir )
     : m_shortcut_dir( shortcut_dir ), m_current_panel( 0 ), m_bkg_color( 0xfcfcfc ), m_sel_color( 0xffe8cc ),
-    wxFrame( nullptr, wxID_ANY, "Project Start" )
+    wxFrame( nullptr, wxID_ANY, "Project Start", wxDefaultPosition, wxSize( -1, -1 ), c_ps_style )
 {
     for( size_t i = 0; i < m_maxpanels; i++ ) {
         m_entries[i] = nullptr;
