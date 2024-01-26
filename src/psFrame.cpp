@@ -82,10 +82,11 @@ size_t psFrame::ReadOptions()
         if( !entry.is_directory() ) {
             continue;
         }
-        opt.m_option = entry.path().filename().u8string();
-        if( opt.m_option == "Batch" ) {
+        string option = entry.path().filename().u8string();
+        if( option == "Batch" ) {
             continue;
         }
+        opt.m_option = "  " + option;
         opt.m_filename = entry.path().u8string();
         m_options.push_back( opt );
         index++;
@@ -107,7 +108,7 @@ void psFrame::CreatePanels( size_t num )
         wxBoxSizer* bsizer = new wxBoxSizer( wxHORIZONTAL );
 
         m_entries[i] = new wxStaticText( panel, wxID_ANY, m_options[i].m_option,
-            wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL );
+            wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
         m_entries[i]->Wrap( -1 );
         m_entries[i]->SetFont( wxFont( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "" ) );
 
