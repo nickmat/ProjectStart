@@ -24,10 +24,10 @@
 */
 
 // Program icon
-aaa ICON "ps.ico"
+aaa ICON "launch.ico"
 
 // Icon used with program frame
-frame ICON "ps.ico"
+frame ICON "launch.ico"
 
 #define wxUSE_NO_MANIFEST 0
 
