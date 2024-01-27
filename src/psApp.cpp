@@ -41,12 +41,8 @@ wxIMPLEMENT_APP( psApp );
 
 bool psApp::OnInit()
 {
-    if( !wxApp::OnInit() ) {
-        return false;
-    }
-
     wxString shortcut_dir;
-    bool success = wxGetEnv( "PROJECTSTART", &shortcut_dir );
+    wxGetEnv( "PROJECTSTART", &shortcut_dir );
     if( argc > 1 ) {
         shortcut_dir = argv[1];
     }
