@@ -112,7 +112,7 @@ void psFrame::CreatePanels( size_t num )
         m_entries[i]->Wrap( -1 );
         m_entries[i]->SetFont( wxFont( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "" ) );
 
-        bsizer->Add( m_entries[i], 1, wxALIGN_CENTER_VERTICAL | wxALIGN_CENTER_HORIZONTAL | wxALL, 0 );
+        bsizer->Add( m_entries[i], 1, wxALIGN_BOTTOM | wxALL, 0 );
 
         panel->SetSizer( bsizer );
         panel->Layout();
