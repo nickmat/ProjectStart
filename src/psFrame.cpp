@@ -42,6 +42,7 @@ constexpr long c_ps_style = wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHI
 
 psFrame::psFrame( const string& shortcut_dir )
     : m_shortcut_dir( shortcut_dir ), m_current_panel( 0 ), m_bkg_color( 0xfcfcfc ), m_sel_color( 0xffe8cc ),
+    m_active( false ),
     wxFrame( nullptr, wxID_ANY, "Project Start - " + shortcut_dir, wxDefaultPosition, wxSize( -1, -1 ), c_ps_style )
 {
     for( size_t i = 0; i < m_maxpanels; i++ ) {
@@ -173,15 +174,19 @@ void psFrame::OnEnter( wxMouseEvent& event )
 
 void psFrame::OnLeave( wxMouseEvent& event )
 {
-    size_t i = GetEntryIndex( event.GetEventObject() );
-    m_entries[i]->SetBackgroundColour( m_bkg_color );
-    m_entries[i]->Refresh();
-
+    if( !m_active ) {
+        size_t i = GetEntryIndex( event.GetEventObject() );
+        m_entries[i]->SetBackgroundColour( m_bkg_color );
+        m_entries[i]->Refresh();
+    }
     SetCursor( wxCURSOR_ARROW );
 }
 
 void psFrame::OnButtonDown( wxMouseEvent& event )
 {
+    OnEnter( event );
+    m_active = true;
+
     m_current_panel = GetEntryIndex( event.GetEventObject() );
     fs::path dir = m_options[m_current_panel].m_filename;
     std::vector<wxMenu*> menus;
@@ -190,6 +195,11 @@ void psFrame::OnButtonDown( wxMouseEvent& event )
     PopupMenu( menus[0] );
     delete menus[0];
     m_items.clear();
+    m_entries[m_current_panel]->SetBackgroundColour( m_bkg_color );
+    m_entries[m_current_panel]->Refresh();
+
+    OnLeave( event );
+    m_active = false;
 }
 
 int psFrame::create_submenu( fs::path path, std::vector<wxMenu*>& menus, int index )

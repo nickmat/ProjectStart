@@ -68,6 +68,7 @@ private:
     OptionVec m_items;
     wxColour m_bkg_color;
     wxColour m_sel_color;
+    bool m_active;
 };
 
 
