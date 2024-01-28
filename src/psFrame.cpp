@@ -38,6 +38,16 @@ using std::string;
 namespace fs = std::filesystem;
 
 
+#define VERSION_NUM  "0.3.0"
+
+#if defined(NDEBUG) || !defined(_DEBUG)
+#define VERSION_CONFIG   ""
+#else
+#define VERSION_CONFIG   " debug"
+#endif
+
+constexpr const char* psVersion = VERSION_NUM VERSION_CONFIG;
+
 constexpr long c_ps_style = wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxTAB_TRAVERSAL;
 
 psFrame::psFrame( const string& shortcut_dir )
@@ -148,19 +158,17 @@ void psFrame::OnExit( wxCommandEvent& event )
 
 void psFrame::OnAbout( wxCommandEvent& event )
 {
-    wxMessageBox( wxString::Format
-    (
-        "Project Start - Organizing your Projects\n\n"
-
-        "Version 0.0.1\n"
+    wxString about = wxString::Format(
+        "Project Start - Launching your Projects\n\n"
+        "Version %s\n"
         "Using %s\n"
         "Running under %s.",
+        psVersion,
         wxVERSION_STRING,
         wxGetOsDescription()
-    ),
-        "About Project Start",
-        wxOK | wxICON_INFORMATION,
-        this );
+    );
+
+    wxMessageBox( about, "About Project Start", wxOK | wxICON_INFORMATION, this );
 }
 
 void psFrame::OnEnter( wxMouseEvent& event )
