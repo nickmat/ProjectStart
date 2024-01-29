@@ -144,12 +144,12 @@ void psFrame::CreatePanels()
 
 size_t psFrame::GetEntryIndex( const wxObject* entry ) const
 {
-    for( size_t i = 0; i < m_maxpanels; i++ ) {
+    for( size_t i = 0; i < m_entries.size(); i++ ) {
         if( m_entries[i] == entry ) {
             return i;
         }
     }
-    return m_maxpanels;
+    return m_entries.size();
 }
 
 void psFrame::OnExit( wxCommandEvent& event )

@@ -61,7 +61,6 @@ private:
     int create_submenu( std::filesystem::path path, std::vector<wxMenu*>& menus, int index );
     void OnOptionSelected( wxCommandEvent& event );
 
-    static constexpr size_t m_maxpanels = 6;
     std::string m_shortcut_dir;
     OptionVec m_options;
     StaticTextVec m_entries;
