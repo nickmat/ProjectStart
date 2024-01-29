@@ -112,6 +112,7 @@ void psFrame::CreatePanels( size_t num )
     SetSizeHints( wxDefaultSize, wxDefaultSize );
 
     wxBoxSizer* bsizer1 = new wxBoxSizer( wxVERTICAL );
+    int height = 0;
 
     for( size_t i = 0; i < size; i++ ) {
         wxPanel* panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -123,18 +124,21 @@ void psFrame::CreatePanels( size_t num )
         m_entries[i]->Wrap( -1 );
         m_entries[i]->SetFont( wxFont( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "" ) );
 
-        bsizer->Add( m_entries[i], 1, wxALIGN_BOTTOM | wxALL, 0 );
+        bsizer->Add( m_entries[i], 1, wxALIGN_CENTER | wxALL, 0 );
 
         panel->SetSizer( bsizer );
         panel->Layout();
         bsizer->Fit( panel );
         bsizer1->Add( panel, 1, wxEXPAND, 0 );
 
+        wxSize panel_size = panel->GetSize();
+        height += panel_size.y + 5;
+
         m_entries[i]->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( psFrame::OnButtonDown ), nullptr, this );
         m_entries[i]->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( psFrame::OnEnter ), nullptr, this );
         m_entries[i]->Connect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( psFrame::OnLeave ), nullptr, this );
     }
-
+    SetClientSize( wxSize( 400, height ) );
     SetSizer( bsizer1 );
     Layout();
 
