@@ -58,6 +58,7 @@ psFrame::psFrame( const string& shortcut_dir )
     SetIcon( wxICON( frame ) );
 
     wxMenu* menuFile = new wxMenu;
+    menuFile->Append( psID_Open_Folder, "O&pen Folder" );
     menuFile->Append( wxID_EXIT );
 
     wxMenu* menuHelp = new wxMenu;
@@ -69,8 +70,9 @@ psFrame::psFrame( const string& shortcut_dir )
 
     SetMenuBar( menuBar );
 
-    Bind( wxEVT_MENU, &psFrame::OnAbout, this, wxID_ABOUT );
+    Bind( wxEVT_MENU, &psFrame::OnOpenFolder, this, psID_Open_Folder );
     Bind( wxEVT_MENU, &psFrame::OnExit, this, wxID_EXIT );
+    Bind( wxEVT_MENU, &psFrame::OnAbout, this, wxID_ABOUT );
     Bind( wxEVT_COMMAND_MENU_SELECTED, &psFrame::OnOptionSelected, this,
         psID_EntryFirst, psID_EntryLast );
 
@@ -150,6 +152,12 @@ size_t psFrame::GetEntryIndex( const wxObject* entry ) const
         }
     }
     return m_entries.size();
+}
+
+void psFrame::OnOpenFolder( wxCommandEvent& event )
+{
+    wxLaunchDefaultApplication( m_shortcut_dir );
+    Close( true );
 }
 
 void psFrame::OnExit( wxCommandEvent& event )

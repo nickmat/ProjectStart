@@ -52,6 +52,7 @@ private:
     void CreatePanels();
     size_t GetEntryIndex( const wxObject* entry ) const;
 
+    void OnOpenFolder( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
 
@@ -71,9 +72,11 @@ private:
     bool m_active;
 };
 
-
 constexpr int psMaxEntry = 100;
-constexpr int psID_EntryFirst = 1;
-constexpr int psID_EntryLast = psID_EntryFirst + psMaxEntry;
+enum {
+    psID_Open_Folder =wxID_HIGHEST + 1,
+    psID_EntryFirst,
+    psID_EntryLast = psID_EntryFirst + psMaxEntry
+};
 
 #endif // SRC_PSFRAME_H_GUARD
