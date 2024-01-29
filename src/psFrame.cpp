@@ -55,10 +55,6 @@ psFrame::psFrame( const string& shortcut_dir )
     m_active( false ),
     wxFrame( nullptr, wxID_ANY, "Project Start - " + shortcut_dir, wxDefaultPosition, wxSize( -1, -1 ), c_ps_style )
 {
-    for( size_t i = 0; i < m_maxpanels; i++ ) {
-        m_entries[i] = nullptr;
-    }
-
     SetIcon( wxICON( frame ) );
 
     wxMenu* menuFile = new wxMenu;
@@ -78,11 +74,11 @@ psFrame::psFrame( const string& shortcut_dir )
     Bind( wxEVT_COMMAND_MENU_SELECTED, &psFrame::OnOptionSelected, this,
         psID_EntryFirst, psID_EntryLast );
 
-    size_t opts = ReadOptions();
-    CreatePanels( opts );
+    ReadOptions();
+    CreatePanels();
 }
 
-size_t psFrame::ReadOptions()
+void psFrame::ReadOptions()
 {
     fs::path dir = m_shortcut_dir;
     m_options.clear();
@@ -101,30 +97,30 @@ size_t psFrame::ReadOptions()
         opt.m_filename = entry.path().u8string();
         m_options.push_back( opt );
         index++;
+        if( index >= psMaxEntry ) {
+            break;
+        }
     }
-    return index;
 }
 
-void psFrame::CreatePanels( size_t num )
+void psFrame::CreatePanels()
 {
-    size_t size = std::min( num, m_maxpanels );
-
     SetSizeHints( wxDefaultSize, wxDefaultSize );
 
     wxBoxSizer* bsizer1 = new wxBoxSizer( wxVERTICAL );
     int height = 0;
 
-    for( size_t i = 0; i < size; i++ ) {
+    for( auto& option : m_options) {
         wxPanel* panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
         SetBackgroundColour( m_bkg_color );
         wxBoxSizer* bsizer = new wxBoxSizer( wxHORIZONTAL );
 
-        m_entries[i] = new wxStaticText( panel, wxID_ANY, m_options[i].m_option,
+        wxStaticText* entry = new wxStaticText( panel, wxID_ANY, option.m_option,
             wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
-        m_entries[i]->Wrap( -1 );
-        m_entries[i]->SetFont( wxFont( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "" ) );
+        entry->Wrap( -1 );
+        entry->SetFont( wxFont( 16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "" ) );
 
-        bsizer->Add( m_entries[i], 1, wxALIGN_CENTER | wxALL, 0 );
+        bsizer->Add( entry, 1, wxALIGN_CENTER | wxALL, 0 );
 
         panel->SetSizer( bsizer );
         panel->Layout();
@@ -134,9 +130,10 @@ void psFrame::CreatePanels( size_t num )
         wxSize panel_size = panel->GetSize();
         height += panel_size.y + 5;
 
-        m_entries[i]->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( psFrame::OnButtonDown ), nullptr, this );
-        m_entries[i]->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( psFrame::OnEnter ), nullptr, this );
-        m_entries[i]->Connect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( psFrame::OnLeave ), nullptr, this );
+        entry->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( psFrame::OnButtonDown ), nullptr, this );
+        entry->Connect( wxEVT_ENTER_WINDOW, wxMouseEventHandler( psFrame::OnEnter ), nullptr, this );
+        entry->Connect( wxEVT_LEAVE_WINDOW, wxMouseEventHandler( psFrame::OnLeave ), nullptr, this );
+        m_entries.push_back( entry );
     }
     SetClientSize( wxSize( 400, height ) );
     SetSizer( bsizer1 );

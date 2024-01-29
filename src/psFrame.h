@@ -40,6 +40,7 @@ struct Option {
 };
 
 using OptionVec = std::vector<Option>;
+using StaticTextVec = std::vector<wxStaticText*>;
 
 class psFrame : public wxFrame
 {
@@ -47,8 +48,8 @@ public:
     psFrame( const std::string& shortcut_dir );
 
 private:
-    size_t ReadOptions();
-    void CreatePanels( size_t num );
+    void ReadOptions();
+    void CreatePanels();
     size_t GetEntryIndex( const wxObject* entry ) const;
 
     void OnExit( wxCommandEvent& event );
@@ -63,7 +64,7 @@ private:
     static constexpr size_t m_maxpanels = 6;
     std::string m_shortcut_dir;
     OptionVec m_options;
-    wxStaticText* m_entries[m_maxpanels];
+    StaticTextVec m_entries;
     size_t m_current_panel;
     OptionVec m_items;
     wxColour m_bkg_color;
