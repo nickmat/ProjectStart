@@ -62,6 +62,7 @@ psFrame::psFrame( const string& shortcut_dir )
     menuFile->Append( wxID_EXIT );
 
     wxMenu* menuHelp = new wxMenu;
+    menuHelp->Append( psID_Website, "Home &Website" );
     menuHelp->Append( wxID_ABOUT );
 
     wxMenuBar* menuBar = new wxMenuBar();
@@ -72,6 +73,7 @@ psFrame::psFrame( const string& shortcut_dir )
 
     Bind( wxEVT_MENU, &psFrame::OnOpenFolder, this, psID_Open_Folder );
     Bind( wxEVT_MENU, &psFrame::OnExit, this, wxID_EXIT );
+    Bind( wxEVT_MENU, &psFrame::OnWebsite, this, psID_Website );
     Bind( wxEVT_MENU, &psFrame::OnAbout, this, wxID_ABOUT );
     Bind( wxEVT_COMMAND_MENU_SELECTED, &psFrame::OnOptionSelected, this,
         psID_EntryFirst, psID_EntryLast );
@@ -162,6 +164,12 @@ void psFrame::OnOpenFolder( wxCommandEvent& event )
 
 void psFrame::OnExit( wxCommandEvent& event )
 {
+    Close( true );
+}
+
+void psFrame::OnWebsite( wxCommandEvent& event )
+{
+    wxLaunchDefaultBrowser( "https://github.com/nickmat/ProjectStart" );
     Close( true );
 }
 

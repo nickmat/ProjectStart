@@ -54,6 +54,7 @@ private:
 
     void OnOpenFolder( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
+    void OnWebsite( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
 
     void OnEnter( wxMouseEvent& event );
@@ -75,6 +76,7 @@ private:
 constexpr int psMaxEntry = 100;
 enum {
     psID_Open_Folder =wxID_HIGHEST + 1,
+    psID_Website,
     psID_EntryFirst,
     psID_EntryLast = psID_EntryFirst + psMaxEntry
 };
