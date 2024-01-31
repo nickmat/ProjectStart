@@ -232,7 +232,9 @@ int psFrame::create_submenu( fs::path path, std::vector<wxMenu*>& menus, int ind
     wxMenu* menu = new wxMenu;
     menus.push_back( menu );
     Option item;
+    bool entries = false;
     for( const auto& entry : fs::directory_iterator( path ) ) {
+        entries = true;
         if( entry.is_directory() ) {
             size_t submenu_index = menus.size();
             index = create_submenu( entry.path(), menus, index );
@@ -248,6 +250,10 @@ int psFrame::create_submenu( fs::path path, std::vector<wxMenu*>& menus, int ind
         if( index == psID_EntryLast ) {
             wxMessageBox( "Exceed number of expected entries.", "ProjectStart: Error" );
         }
+    }
+    if( !entries ) {
+        wxMenuItem* item = menu->Append( wxID_ANY, "<Empty>" );
+        item->Enable( false );
     }
     return index;
 }
