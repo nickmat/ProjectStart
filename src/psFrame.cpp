@@ -38,7 +38,7 @@ using std::string;
 namespace fs = std::filesystem;
 
 
-#define VERSION_NUM  "0.3.0"
+#define VERSION_NUM  "0.0.1"
 
 #if defined(NDEBUG) || !defined(_DEBUG)
 #define VERSION_CONFIG   ""
