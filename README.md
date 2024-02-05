@@ -4,25 +4,73 @@
 
 This Windows program is designed to open programs and documents
 associated with your projects.
-It can be pinned to the taskbar and used when starting work on your project.
-It can replace Windows 10 taskbar toolbars.
+It can be pinned to the taskbar and used when starting work on your project
+or running project related tasks.
+It can replace the Windows 10 taskbar toolbars.
 
-To setup the program, create a directory somewhere convenient.
-In that directory, create further directories for each of your major projects.
-Between 3 and 8 is expected.
-These directories will then appear listed in the opening frame of the program.
+### Windows 10 Taskbar Toolbars
 
-These directories act as toolbars do when added to the Windows 10 taskbar.
-Clicking on them brings up a menu of the contents.
-Selecting the menu item is the equivalent of double clicking the file
-in file explorer.
+If you are not familiar with the confusingly named taskbar toolbars,
+then right click on the Windows 10 taskbar,
+the topmost option is 'toolbars'.
+Clicking on this option gives the option of several standard directories,
+and at the bottom the option 'New toolbar...'.
+Clicking this option allows you to select any directory to use as a 'toolbar'
+Once selected, it shows on the right hand side of the taskbar
+as the name of the directory followed by a chevron '>>' button.
+If you use this button, it gives a popup menu of all the items in the directory.
+
+I have made use of these toolbars for my own projects.
+The directories can pe populated with shortcuts to documents
+and batch files/scripts etc.
+For instance, my C++ project "The Family Pack" has a file 'tfp.sln'.
+By right clicking on this file you can create a shortcut file.
+Copy this shortcut to The Family Pack toolbar directory
+and rename it 'Visual Studio'.
+Now from the taskbar, click on the 'tfp' toolbar
+and select the 'Visual Studio' option.
+The Visual Studio program will be started
+with The Family Pack code already loaded and ready to go.
+
+Other routine tasks can be set up and carried out directly from the toolbar.
+Such as running the latest debug version of the program,
+or running unit tests.
+
+Personally, although this feature has an air of neglect about it,
+I find it very useful.
+Particularly for projects where I am more interested in documents
+rather than programs.
+
+### ProjectStart
+
+The ProjectStart app replaces all the taskbar toolbars
+with a single app pinned to the the taskbar.
+Once set up, clicking on taskbar app pops up
+a list of all the main projects you are working on.
+
+![ProjectStart App](./images/Screenshot1.png)
+
+Clicking on one of projects pops up a menu of all the shortcuts etc.
+that have been created for that project.
+
+![ProjectStart App](./images/Screenshot2.png)
+
+Clicking on a menu option then launches the shortcut
+and closes the ProjectStart app.
 
 ### Initial Set Up
 
 Set up an environment value:-
 
-PROGRAMSTART=\<initial-directory>
+Settings - System - About - "Advanced system settings"
 
-(Settings - System - About - "Advanced system settings" (on right hand side))
+PROJECTSTART=\<initial-directory>
 
-Open the ProgramStart application and pin it to the taskbar.
+Open the ProjectStart application and pin it to the taskbar.
+
+If on first run of the ProjectStart app
+there is a problem with missing dll's, go to:-
+
+https://answers.microsoft.com/en-us/windows/forum/all/vcruntime140dll-and-msvcp140dll-missing-in-windows/caf454d1-49f4-4d2b-b74a-c83fb7c38625
+
+ProjectStart requires the x64 version. 
