@@ -36,10 +36,12 @@ Other routine tasks can be set up and carried out directly from the toolbar.
 Such as running the latest debug version of the program,
 or running unit tests.
 
-Personally, although this feature has an air of neglect about it,
-I find it very useful.
-Particularly for projects where I am more interested in documents
+I find them very useful,
+particularly for projects where I am more interested in documents
 rather than programs.
+Unfortunately however,
+this feature has not been carried over to Windows 11
+and hence, ProjectStart.
 
 ### ProjectStart
 
@@ -58,6 +60,18 @@ that have been created for that project.
 Clicking on a menu option then launches the shortcut
 and closes the ProjectStart app.
 
+### How it Works
+
+Somewhere on your file system you setup a directory
+containing a directory for each of your main projects.
+If you have a number of smaller projects,
+they can be grouped together in an "Other Projects" directory.
+
+Populate the project directories with shortcuts to your
+projects documents and batch/script files.
+
+Install the ProjectStart app and pin it to the taskbar.
+
 ### Initial Set Up
 
 Set up an environment value:-
@@ -73,4 +87,16 @@ there is a problem with missing dll's, go to:-
 
 https://answers.microsoft.com/en-us/windows/forum/all/vcruntime140dll-and-msvcp140dll-missing-in-windows/caf454d1-49f4-4d2b-b74a-c83fb7c38625
 
-ProjectStart requires the x64 version. 
+ProjectStart requires the x64 version.
+
+### Future Enhancements
+
+Improve setup procedure by presenting a dialog on app's initial run.
+Use the registry instead of an environment value.
+
+Add program icons to the menu items.
+
+Not require a single directory tree structure.
+This will allow some of the Windows 10 standard toolbars can be used.
+It will will also allow the shortcut directories
+to be part of the projects file structure.
