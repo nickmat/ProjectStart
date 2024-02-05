@@ -20,6 +20,8 @@ Once selected, it shows on the right hand side of the taskbar
 as the name of the directory followed by a chevron '>>' button.
 If you use this button, it gives a popup menu of all the items in the directory.
 
+![ProjectStart App](./images/Screenshot3.png)
+
 I have made use of these toolbars for my own projects.
 The directories can pe populated with shortcuts to documents
 and batch files/scripts etc.
@@ -94,9 +96,14 @@ ProjectStart requires the x64 version.
 Improve setup procedure by presenting a dialog on app's initial run.
 Use the registry instead of an environment value.
 
+Allow the order of menu items to be set.
+(Currently alphabetical order.)
+
+Ignore shortcut file extension.
+
 Add program icons to the menu items.
 
-Not require a single directory tree structure.
-This will allow some of the Windows 10 standard toolbars can be used.
+Don't require a single directory tree structure.
+This will allow some of the Windows standard toolbars can be used.
 It will will also allow the shortcut directories
-to be part of the projects file structure.
+to be part of the projects own file structure.
