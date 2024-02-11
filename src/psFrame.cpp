@@ -31,22 +31,13 @@
 #endif
 
 #include "psFrame.h"
+#include "psVersion.h"
 
 #include "psApp.h"
 
 using std::string;
 namespace fs = std::filesystem;
 
-
-#define VERSION_NUM  "0.0.1"
-
-#if defined(NDEBUG) || !defined(_DEBUG)
-#define VERSION_CONFIG   ""
-#else
-#define VERSION_CONFIG   " debug"
-#endif
-
-constexpr const char* psVersion = VERSION_NUM VERSION_CONFIG;
 
 constexpr long c_ps_style = wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxTAB_TRAVERSAL;
 
