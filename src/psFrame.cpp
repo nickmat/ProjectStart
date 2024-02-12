@@ -38,6 +38,9 @@
 using std::string;
 namespace fs = std::filesystem;
 
+namespace {
+    string clean_filename( const string& filename );
+}
 
 constexpr long c_ps_style = wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxTAB_TRAVERSAL;
 
@@ -84,8 +87,8 @@ void psFrame::ReadOptions()
         if( !entry.is_directory() ) {
             continue;
         }
-        string option = entry.path().filename().u8string();
-        if( option == "Batch" ) {
+        string option = clean_filename( entry.path().filename().u8string() );
+        if( option.empty() ) {
             continue;
         }
         opt.m_option = "  " + option;
@@ -261,6 +264,24 @@ void psFrame::OnOptionSelected( wxCommandEvent& event )
     wxLaunchDefaultApplication( fn );
     Close( true );
 #endif
+}
+
+namespace {
+
+    string clean_filename( const string& filename )
+    {
+        if( filename.length() <= 3 ) {
+            return filename;
+        }
+        if( filename.rfind( "XX-", 0 ) == 0 ) {
+            return string();
+        }
+        if( filename[2] == '-' && isdigit( filename[0] ) && isdigit( filename[1] ) ) {
+            return filename.substr( 3 );
+        }
+        return filename;
+    }
+
 }
 
 // End of src/psFrame.cpp source.
