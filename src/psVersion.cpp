@@ -62,7 +62,7 @@ const char* psVersion = VERSION_NUM VERSION_STATUS VERSION_CONFIG;
 
   4feb24 v0.0.1   Create initial release.
 
-  active v0.0.2   Order menu items.
+ 25nov24 v0.0.2   Order menu items using numeral prefixes.
 
  See also website https://github.com/nickmat/ProjectStart
 

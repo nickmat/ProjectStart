@@ -228,18 +228,27 @@ int psFrame::create_submenu( fs::path path, std::vector<wxMenu*>& menus, int ind
     Option item;
     bool entries = false;
     for( const auto& entry : fs::directory_iterator( path ) ) {
-        entries = true;
         if( entry.is_directory() ) {
             size_t submenu_index = menus.size();
             index = create_submenu( entry.path(), menus, index );
             wxMenu* submenu = menus[submenu_index];
-            menu->AppendSubMenu( submenu, wxString( entry.path().filename() ) );
+            string text = entry.path().filename().u8string();
+            text = clean_filename( text );
+            if( !text.empty() ) {
+                menu->AppendSubMenu( submenu, text );
+                entries = true;
+            }
             continue;
         }
         item.m_option = entry.path().stem().u8string();
         item.m_filename = entry.path().u8string();
         m_items.push_back( item );
-        menu->Append( index, item.m_option );
+        string text = clean_filename( item.m_option );
+        if( text.empty() ) {
+            continue;
+        }
+        menu->Append( index, text );
+        entries = true;
         index++;
         if( index == psID_EntryLast ) {
             wxMessageBox( "Exceed number of expected entries.", "ProjectStart: Error" );
