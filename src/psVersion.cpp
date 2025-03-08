@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     https://github.com/nickmat/ProjectStart
  * Created:     11th February 2024
- * Copyright:   Copyright (c) 2024, Nick Matthews.
+ * Copyright:   Copyright (c) 2024..2025, Nick Matthews.
  * Licence:     Boost Software License - Version 1.0
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -44,7 +44,7 @@
 #define VERSION_CONFIG   " debug"
 #endif
 
-#define VERSION_NUM   "0.0.2"
+#define VERSION_NUM   "0.0.3"
 
 
 /*! A string containing the current full version number.
@@ -63,6 +63,8 @@ const char* psVersion = VERSION_NUM VERSION_STATUS VERSION_CONFIG;
   4feb24 v0.0.1   Create initial release.
 
  25nov24 v0.0.2   Order menu items using numeral prefixes.
+
+  8feb24 v0.0.3   Add taskbar folder to file menu.
 
  See also website https://github.com/nickmat/ProjectStart
 

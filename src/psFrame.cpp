@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     https://github.com/nickmat/ProjectStart
  * Created:     2nd January 2022
- * Copyright:   Copyright (c) 2022..2024, Nick Matthews.
+ * Copyright:   Copyright (c) 2022..2025, Nick Matthews.
  * Licence:     Boost Software License - Version 1.0
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -53,6 +53,7 @@ psFrame::psFrame( const string& shortcut_dir )
 
     wxMenu* menuFile = new wxMenu;
     menuFile->Append( psID_Open_Folder, "O&pen Folder" );
+    menuFile->Append( psID_TaskbarFolder, "T&askbar Folder" );
     menuFile->Append( wxID_EXIT );
 
     wxMenu* menuHelp = new wxMenu;
@@ -66,6 +67,7 @@ psFrame::psFrame( const string& shortcut_dir )
     SetMenuBar( menuBar );
 
     Bind( wxEVT_MENU, &psFrame::OnOpenFolder, this, psID_Open_Folder );
+    Bind( wxEVT_MENU, &psFrame::OnTaskbarFolder, this, psID_TaskbarFolder );
     Bind( wxEVT_MENU, &psFrame::OnExit, this, wxID_EXIT );
     Bind( wxEVT_MENU, &psFrame::OnWebsite, this, psID_Website );
     Bind( wxEVT_MENU, &psFrame::OnAbout, this, wxID_ABOUT );
@@ -153,6 +155,12 @@ size_t psFrame::GetEntryIndex( const wxObject* entry ) const
 void psFrame::OnOpenFolder( wxCommandEvent& event )
 {
     wxLaunchDefaultApplication( m_shortcut_dir );
+    Close( true );
+}
+
+void psFrame::OnTaskbarFolder( wxCommandEvent& event )
+{
+    wxLaunchDefaultApplication( g_taskbar_folder );
     Close( true );
 }
 

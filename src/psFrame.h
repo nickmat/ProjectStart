@@ -5,7 +5,7 @@
  * Author:      Nick Matthews
  * Website:     https://github.com/nickmat/ProjectStart
  * Created:     2nd January 2022
- * Copyright:   Copyright (c) 2022..2024, Nick Matthews.
+ * Copyright:   Copyright (c) 2022..2025, Nick Matthews.
  * Licence:     Boost Software License - Version 1.0
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -42,6 +42,8 @@ struct Option {
 using OptionVec = std::vector<Option>;
 using StaticTextVec = std::vector<wxStaticText*>;
 
+constexpr const char* g_taskbar_folder = "C:\\Users\\nick\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar";
+
 class psFrame : public wxFrame
 {
 public:
@@ -53,6 +55,7 @@ private:
     size_t GetEntryIndex( const wxObject* entry ) const;
 
     void OnOpenFolder( wxCommandEvent& event );
+    void OnTaskbarFolder( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
     void OnWebsite( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
@@ -76,6 +79,7 @@ private:
 constexpr int psMaxEntry = 100;
 enum {
     psID_Open_Folder =wxID_HIGHEST + 1,
+    psID_TaskbarFolder,
     psID_Website,
     psID_EntryFirst,
     psID_EntryLast = psID_EntryFirst + psMaxEntry
